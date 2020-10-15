@@ -1,0 +1,100 @@
+#pragma once
+#include<vector>
+//矩形类
+class rectangle {
+protected:
+	rectangle() {}
+	void delayConstru(int x1, int y1, int x2, int y2)
+	{
+		width = x2 - x1;
+		height = y2 - y1;
+
+		x_mid = (x1 + x2) / 2.0;
+		y_mid = (y2 + y1) / 2.0;
+
+		up = false;
+		right = false;
+
+		this->x1 = x1;
+		this->y1 = y1;
+		this->x2 = x2;
+		this->y2 = y2;
+	}
+
+public:
+
+	//矩形编号，和信息素表的顺序相同,主函数初始化的时候获得
+	int index=-1;
+
+	//长宽
+	int width=0;
+	int height=0;
+
+	//位置信息
+	int x1=0;
+	int y1=0;
+	int x2=0;
+	int y2=0;
+	float x_mid=0;//矩形中心点坐标
+	float y_mid=0;
+
+	//上右摆放状态
+	bool up=false;
+	bool right=false;
+
+	//记录该矩形是否被摆放
+	bool flag = false;//否
+
+	//该矩形的左右孩子节点，左节点对应上，右节点对应右
+	rectangle *r_left =NULL;
+	rectangle *r_right =NULL;
+
+	rectangle(int x1, int y1, int x2, int y2)
+	{
+		this->delayConstru(x1, y1, x2, y2);
+	}
+
+	//进入槽子，被拼到当前矩形上部，修改信息
+	void set_up(rectangle *r_now)
+	{
+		this->x1 = (*r_now).x1;
+		this->y1 = (*r_now).y1 + (*r_now).height;
+		this->x2 = this->x1 + this->width;
+		this->y2 = this->y1 + this->height;
+
+		this->x_mid = this->x1 + (this->width) / 2.0;
+		this->y_mid = this->y1 + (this->height) / 2.0;
+	}
+
+	//进入槽子，被拼到当前矩形右部，修改信息
+	void set_right(rectangle *r_now)
+	{
+
+		this->x1 = (*r_now).x1 + (*r_now).width;
+		this->y1 = (*r_now).y1;
+		this->x2 = this->x1 + this->width;
+		this->y2 = this->y1 + this->height;
+
+		this->x_mid = this->x1 + (this->width) / 2;
+		this->y_mid = this->y1 + (this->height) / 2;
+	}
+	void to_String()
+	{
+		cout << "编号 " << index << endl;
+		cout << "width " << width<<endl;
+		cout << "height " << height<<endl;
+		cout << "x1 " << x1<<endl;
+		cout << "y1 " << y1<<endl;
+		cout << "x2 "<<x2<<endl;
+		cout << "y2 " << y2<<endl;
+		cout << "x_mid " << x_mid << endl;
+		cout << "y_mid " << y_mid << endl;
+		cout << "up " << up<<endl;
+		cout << "right " << right<<endl;
+		cout << "flag " << flag<<endl;
+		cout << endl;
+		//cout << "*r_left" << r_left->index << endl;
+		//cout << "*r_right" << r_right->index << endl;
+
+	}
+};
